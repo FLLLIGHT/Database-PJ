@@ -2,10 +2,7 @@ package fudan.database.project.service;
 
 import fudan.database.project.dao.*;
 import fudan.database.project.dao.impl.*;
-import fudan.database.project.entity.Bed;
-import fudan.database.project.entity.Patient;
-import fudan.database.project.entity.TestResult;
-import fudan.database.project.entity.WardNurse;
+import fudan.database.project.entity.*;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +13,7 @@ public class PatientService {
     private final WardNurseDAO wardNurseDAO = new WardNurseDAOJdbcImpl();
     private final BedDAO bedDAO = new BedDAOJdbcImpl();
     private final TestResultDAO testResultDAO = new TestResultDAOJdbcImpl();
+    private final DailyRecordDAO dailyRecordDAO = new DailyRecordDAOJdbcImpl();
     private final int MaxNumberInMild = 3;
     private final int MaxNumberInSevere = 2;
     private final int MaxNumberInCritical = 1;
@@ -47,6 +45,11 @@ public class PatientService {
     public void addTestResult(String patientId, Date date, String result, int evaluation){
         TestResult testResult = new TestResult(patientId, date, result, evaluation);
         testResultDAO.save(testResult);
+    }
+
+    public void addDailyRecord(String patientId, float temperature, String symptom, int lifeStatus, Date date){
+        DailyRecord dailyRecord = new DailyRecord(patientId, temperature, symptom, lifeStatus, date);
+        dailyRecordDAO.save(dailyRecord);
     }
 
     public String moveArea(String patientId, int toAreaId){
