@@ -52,7 +52,7 @@ public class EmergencyNurseServlet extends HttpServlet {
 
         String message = patientService.registerPatient(name, address, gender, telephone, evaluation);
         request.setAttribute("message", message);
-        request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/jsp/emergencyNurse.jsp").forward(request, response);
     }
 
     private void queryPatientsByArea(HttpServletRequest request, HttpServletResponse response) throws IOException{

@@ -20,6 +20,22 @@ public class Patient {
         this.evaluation = evaluation;
     }
 
+    public Patient(){
+        //
+    }
+
+    public Patient(String patientId, String name, String address, String gender, String telephone, int areaId, int evaluation, int lifeStatus, int nurseId) {
+        this.patientId = patientId;
+        this.name = name;
+        this.address = address;
+        this.gender = gender;
+        this.telephone = telephone;
+        this.areaId = areaId;
+        this.evaluation = evaluation;
+        this.lifeStatus = lifeStatus;
+        this.nurseId = nurseId;
+    }
+
     public String getPatientId() {
         return patientId;
     }

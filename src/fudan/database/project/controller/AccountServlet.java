@@ -73,6 +73,19 @@ public class AccountServlet extends HttpServlet {
             request.setAttribute("loginStatus", "true");
             request.setAttribute("message", "Success!");
         }
-        request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+        switch (type){
+            case "doctor":
+                request.getRequestDispatcher("/jsp/doctor.jsp").forward(request, response);
+                break;
+            case "chief nurse":
+                request.getRequestDispatcher("/jsp/chiefNurse.jsp").forward(request, response);
+                break;
+            case "ward nurse":
+                request.getRequestDispatcher("/jsp/wardNurse.jsp").forward(request, response);
+                break;
+            case "emergency nurse":
+                request.getRequestDispatcher("/jsp/emergencyNurse.jsp").forward(request, response);
+                break;
+        }
     }
 }
