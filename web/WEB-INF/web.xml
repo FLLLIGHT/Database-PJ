@@ -12,4 +12,12 @@
         <url-pattern>/account/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>doctorServlet</servlet-name>
+        <servlet-class>fudan.database.project.controller.DoctorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>doctorServlet</servlet-name>
+        <url-pattern>/doctor/*</url-pattern>
+    </servlet-mapping>
 </web-app>

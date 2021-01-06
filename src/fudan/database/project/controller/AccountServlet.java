@@ -1,8 +1,9 @@
 package fudan.database.project.controller;
 
-import fudan.database.project.dao.UserDAO;
-import fudan.database.project.dao.UserDAOJdbcImpl;
-import fudan.database.project.entity.User;
+import fudan.database.project.entity.ChiefNurse;
+import fudan.database.project.entity.Doctor;
+import fudan.database.project.entity.EmergencyNurse;
+import fudan.database.project.entity.WardNurse;
 import fudan.database.project.service.AccountService;
 
 import javax.servlet.RequestDispatcher;
@@ -19,7 +20,7 @@ public class AccountServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private AccountService accountService = new AccountService();
+    private final AccountService accountService = new AccountService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -40,14 +41,35 @@ public class AccountServlet extends HttpServlet {
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String userName = request.getParameter("userName");
-        String pass = request.getParameter("pass");
-        User user = accountService.checkUser(userName, pass);
+        String name = request.getParameter("name");
+        String password = request.getParameter("password");
+        String type = request.getParameter("type");
 
-        if(user == null){
+        HttpSession session = request.getSession();
+        switch (type) {
+            case "doctor":
+                Doctor doctor = accountService.checkDoctor(name, password);
+                session.setAttribute("user", doctor);
+                break;
+            case "chief nurse":
+                ChiefNurse chiefNurse = accountService.checkChiefNurse(name, password);
+                session.setAttribute("user", chiefNurse);
+                break;
+            case "ward nurse":
+                WardNurse wardNurse = accountService.checkWardNurse(name, password);
+                session.setAttribute("user", wardNurse);
+                break;
+            case "emergency nurse":
+                EmergencyNurse emergencyNurse = accountService.checkEmergencyNurse(name, password);
+                session.setAttribute("user", emergencyNurse);
+                break;
+        }
+
+        if(session.getAttribute("user") == null){
             request.setAttribute("loginStatus", "false");
             request.setAttribute("message", "There is something wrong with your <b>username or password</b>, please check and try again!");
         }else{
+            session.setAttribute("userType", type);
             request.setAttribute("loginStatus", "true");
             request.setAttribute("message", "Success!");
         }
