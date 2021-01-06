@@ -52,6 +52,10 @@ public class PatientService {
         dailyRecordDAO.save(dailyRecord);
     }
 
+    public Patient getPatientByBed(int bedId){
+        return patientDAO.getPatientByBedId(bedId);
+    }
+
     public String moveArea(String patientId, int toAreaId){
         int bedId = -1;
         //检查对应区域是否还有病床

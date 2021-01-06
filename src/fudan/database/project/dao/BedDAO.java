@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface BedDAO {
     public List<Bed> getFreeBedsByArea(int areaId);
+    public List<Bed> getBedsByArea(int areaId);
+
     public void updateByPatientId(String patientId, int bedId);
     public Bed getBedByPatientId(String patientId);
+
 }

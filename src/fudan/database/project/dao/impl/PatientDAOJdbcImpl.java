@@ -26,6 +26,12 @@ public class PatientDAOJdbcImpl extends DAO<Patient> implements PatientDAO {
     }
 
     @Override
+    public Patient getPatientByBedId(int bedId) {
+        String sql = "SELECT * FROM patient WHERE patient_id = (SELECT patient_id FROM bed WHERE bed_id = ?)";
+        return get(sql, bedId);
+    }
+
+    @Override
     public void updateEvaluationOfPatient(String patientId, int evaluation) {
         String sql = "UPDATE patient SET evaluation = ? WHERE patientId = ?";
         update(sql, evaluation, patientId);
