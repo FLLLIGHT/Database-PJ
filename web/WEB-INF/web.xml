@@ -13,11 +13,29 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>doctorServlet</servlet-name>
-        <servlet-class>fudan.database.project.controller.DoctorServlet</servlet-class>
+        <servlet-name>chiefNurseServlet</servlet-name>
+        <servlet-class>fudan.database.project.controller.ChiefNurseServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>doctorServlet</servlet-name>
-        <url-pattern>/doctor/*</url-pattern>
+        <servlet-name>chiefNurseServlet</servlet-name>
+        <url-pattern>/chiefNurse/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>emergencyNurseServlet</servlet-name>
+        <servlet-class>fudan.database.project.controller.EmergencyNurseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>emergencyNurseServlet</servlet-name>
+        <url-pattern>/emergency/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>wardNurseServlet</servlet-name>
+        <servlet-class>fudan.database.project.controller.WardNurseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wardNurseServlet</servlet-name>
+        <url-pattern>/ward/*</url-pattern>
     </servlet-mapping>
 </web-app>

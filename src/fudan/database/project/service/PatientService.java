@@ -4,6 +4,9 @@ import fudan.database.project.dao.*;
 import fudan.database.project.dao.impl.*;
 import fudan.database.project.entity.*;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -40,6 +43,45 @@ public class PatientService {
 
     public List<Patient> getPatientsByNurseId(int nurseId){
         return patientDAO.getPatientsByNurseId(nurseId);
+    }
+
+    public List<Patient> getPatientsWaitingToDischargeByArea(int areaId){
+        List<Patient> patients = getPatientsByArea(areaId);
+        List<Patient> healedPatients = new ArrayList<>();
+        for(Patient patient : patients){
+            if(checkDailyRecord(patient)&&checkTestResult(patient)){
+                healedPatients.add(patient);
+            }
+        }
+        return healedPatients;
+    }
+
+    private boolean checkDailyRecord(Patient patient){
+        List<DailyRecord> dailyRecords = dailyRecordDAO.getLatest3Record(patient.getPatientId());
+        for(DailyRecord dailyRecord : dailyRecords){
+            if(dailyRecord.getTemperature() >= 37.3)
+                return false;
+        }
+        return true;
+    }
+
+    public void dischargePatient(String patientId){
+        //todo: 检查治疗区域是不是轻症
+        //todo：再次检查病人是不是真的符合出院条件
+        //todo：检查病人的evaluation？
+        patientDAO.updateLifeStatusOfPatient(patientId, 1);
+    }
+
+    private boolean checkTestResult(Patient patient){
+        List<TestResult> testResults = testResultDAO.getTestResultsByPatientId(patient.getPatientId());
+        if(testResults.get(0).getTestResult().equals("positive")) return false;
+        Date date = testResults.get(0).getDate();
+        for(int i=1; i<testResults.size(); i++){
+            TestResult testResult = testResults.get(i);
+            if(testResult.getTestResult().equals("positive")) return false;
+            if(differentDaysByMillisecond(testResult.getDate(), date)>=1) return true;
+        }
+        return false;
     }
 
     public void updateEvaluationOfPatient(String patientId, int evaluation){
@@ -143,11 +185,23 @@ public class PatientService {
         return nurseId;
     }
 
-//    public static void main(String args[]){
+    public static void main(String args[]) throws ParseException {
 //        for(int i=0; i<10; i++){
 //            UUID uuid = UUID.randomUUID();
 //            String strId = uuid.toString().replaceAll("-", "");
 //            System.out.println(strId);
 //        }
-//    }
+//        DateFormat dateFormat = DateFormat.getDateInstance();
+//        Date oldTime = dateFormat.parse("2019-04-07 19:50:11");
+//        Date newTime = new Date();
+//        int result = differentDaysByMillisecond(oldTime, newTime);
+//        System.out.println(result);
+
+    }
+
+    private int differentDaysByMillisecond(Date date1, Date date2)
+    {
+        return (int) ((date2.getTime() - date1.getTime()) / (1000*3600*24));
+    }
+
 }

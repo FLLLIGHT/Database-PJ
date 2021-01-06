@@ -146,6 +146,21 @@ public class DoctorServlet extends HttpServlet {
         patientService.addTestResult(patientId, date, result, evaluation);
     }
 
+    private void queryPatientsWaitingToDischarge(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        HttpSession session = request.getSession();
+        Doctor doctor = (Doctor)session.getAttribute("user");
+        List<Patient> patients = patientService.getPatientsWaitingToDischargeByArea(doctor.getAreaId());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("patients", patients);
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
+    }
 
+    private void dischargePatient(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        HttpSession session = request.getSession();
+        Doctor doctor = (Doctor)session.getAttribute("user");
+        String patientId = request.getParameter("patientId");
+        patientService.dischargePatient(patientId);
+    }
 
 }

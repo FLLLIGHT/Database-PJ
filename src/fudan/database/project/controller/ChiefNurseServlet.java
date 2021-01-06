@@ -137,4 +137,14 @@ public class ChiefNurseServlet  extends HttpServlet {
         JSONObject mapJson = JSONObject.fromObject(map);
         response.getWriter().print(mapJson);
     }
+
+    private void queryPatientsWaitingToDischarge(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        HttpSession session = request.getSession();
+        ChiefNurse chiefNurse = (ChiefNurse)session.getAttribute("user");
+        List<Patient> patients = patientService.getPatientsWaitingToDischargeByArea(chiefNurse.getAreaId());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("patients", patients);
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
+    }
 }
