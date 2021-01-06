@@ -10,6 +10,10 @@ public class DailyRecord {
     private int lifeStatus;
     private Date date;
 
+    public DailyRecord() {
+        //
+    }
+
     public DailyRecord(String patientId, float temperature, String symptom, int lifeStatus, Date date) {
         this.patientId = patientId;
         this.temperature = temperature;

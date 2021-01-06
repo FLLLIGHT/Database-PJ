@@ -5,6 +5,10 @@ public class Bed {
     private String patientId;
     private int roomId;
 
+    public Bed() {
+        //
+    }
+
     public int getBedId() {
         return bedId;
     }

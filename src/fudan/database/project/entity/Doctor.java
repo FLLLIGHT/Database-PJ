@@ -6,6 +6,10 @@ public class Doctor {
     private String password;
     private int areaId;
 
+    public Doctor() {
+        //
+    }
+
     public int getDoctorId() {
         return doctorId;
     }

@@ -6,6 +6,10 @@ public class ChiefNurse {
     private String password;
     private int areaId;
 
+    public ChiefNurse() {
+        //
+    }
+
     public int getChiefNurseId() {
         return chiefNurseId;
     }

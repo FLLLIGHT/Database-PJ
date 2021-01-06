@@ -176,7 +176,7 @@ public class PatientService {
         List<WardNurse> wardNurses = wardNurseDAO.getWardNursesByArea(areaId);
         int limitNumber = getLimitNumber(areaId);
         for(WardNurse wardNurse : wardNurses){
-            int numberOfPatients = patientDAO.getNumberOfPatientsWithSameNurse(wardNurse.getWardNurseId());
+            int numberOfPatients = patientDAO.getPatientsByNurseId(wardNurse.getWardNurseId()).size();
             if(numberOfPatients < limitNumber){
                 nurseId = wardNurse.getWardNurseId();
                 break;

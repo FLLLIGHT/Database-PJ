@@ -12,6 +12,10 @@ public class WardNurse {
         this.areaId = areaId;
     }
 
+    public WardNurse() {
+        //
+    }
+
     public int getWardNurseId() {
         return wardNurseId;
     }

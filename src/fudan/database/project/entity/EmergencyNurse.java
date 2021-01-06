@@ -5,6 +5,10 @@ public class EmergencyNurse {
     private String name;
     private String password;
 
+    public EmergencyNurse() {
+        //
+    }
+
     public EmergencyNurse(String name, String password) {
         this.name = name;
         this.password = password;

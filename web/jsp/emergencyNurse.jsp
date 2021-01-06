@@ -43,7 +43,9 @@
             <select id="subIndentity" style="display: none"></select>
             <button onclick="query()">查询</button>
             <div id="queryAttention" style="display: none">请选择正确的查询条件</div>
-            <div id="queryResult" style="display: none"></div>
+            <div id="queryResult" style="display: none">
+                <table class="table" id="resultTable"></table>
+            </div>
         </div>
     </div>
 </body>
@@ -114,10 +116,48 @@
             d[p] = $('#subIndentity').val();
             $.post('/Database_PJ_war_exploded//emergency/queryPatientsBy' + $('#Indentity').val(), d,
                 function (result) {
-                    console.log(result);
+                    result2Table(JSON.parse(result)["patients"]);
                 }
             );
         }
+    }
+
+    var id2Area = ['', '轻症区', "重症区", "危重症区", "隔离区"];
+    var id2Status = ['', "已治愈", "住院", "死亡"];
+    var id2Evaluation = ['', "轻症", "重症", "危重症"];
+
+    function result2Table(data) {
+        console.log(data);
+        $('#resultTable').empty();
+        $('#resultTable').append(
+            "<tr>" +
+            "<th>姓名</th>" +
+            "<th>性别</th>" +
+            "<th>电话号码</th>" +
+            "<th>家庭地址</th>" +
+            "<th>病情评级</th>" +
+            "<th>生命状态</th>" +
+            "<th>区域</th>" +
+            "<th>负责护士</th>" +
+            "</tr>"
+        );
+        for(i=0; i<data.length; i++){
+            var p = data[i];
+            console.log(p);
+            $('#resultTable').append(
+                "<tr>" +
+                "<td>" + p["name"] + "</td>" +
+                "<td>" + p["gender"] + "</td>" +
+                "<td>" + p["telephone"] + "</td>" +
+                "<td>" + p["address"] + "</td>" +
+                "<td>" + id2Evaluation[p["evaluation"]] + "</td>" +
+                "<td>" + id2Status[p["lifeStatus"]] + "</td>" +
+                "<td>" + id2Area[p["areaId"]] + "</td>" +
+                "<td>" + p["nurseName"] + "</td>" +
+                "</tr>"
+            );
+        }
+        $('#queryResult').css("display", "block");
     }
 </script>
 </html>

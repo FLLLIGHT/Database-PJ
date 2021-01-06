@@ -16,6 +16,10 @@ public class TestResult {
         this.evaluation = evaluation;
     }
 
+    public TestResult() {
+        //
+    }
+
     public int getTestResultId() {
         return testResultId;
     }
