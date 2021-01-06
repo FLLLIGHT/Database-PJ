@@ -9,25 +9,25 @@ import java.util.List;
 public class BedDAOJdbcImpl extends DAO<Bed> implements BedDAO {
     @Override
     public List<Bed> getFreeBedsByArea(int areaId) {
-        String sql = "SELECT bed_id, patient_id, room_id FROM bed WHERE room_id = (SELECT room_id FROM room WHERE area_id = ?) AND patient_id = ''";
+        String sql = "SELECT bedId, patientId, roomId FROM bed WHERE roomId = (SELECT roomId FROM room WHERE areaId = ?) AND patientId = ''";
         return getForList(sql, areaId);
     }
 
     @Override
     public List<Bed> getBedsByArea(int areaId) {
-        String sql = "SELECT bed_id, patient_id, room_id FROM bed WHERE room_id = (SELECT room_id FROM room WHERE area_id = ?)";
+        String sql = "SELECT bedId, patientId, roomId FROM bed WHERE roomId = (SELECT roomId FROM room WHERE areaId = ?)";
         return getForList(sql, areaId);
     }
 
     @Override
     public void updateByPatientId(String patientId, int bedId) {
-        String sql = "UPDATE bed SET patient_id = ? WHERE bed_id = ?";
+        String sql = "UPDATE bed SET patientId = ? WHERE bedId = ?";
         update(sql, patientId, bedId);
     }
 
     @Override
     public Bed getBedByPatientId(String patientId) {
-        String sql = "SELECT bed_id, patient_id, room_id FROM bed WHERE patient_id = ''";
+        String sql = "SELECT bedId, patientId, roomId FROM bed WHERE patientId = ''";
         return get(sql, patientId);
     }
 }

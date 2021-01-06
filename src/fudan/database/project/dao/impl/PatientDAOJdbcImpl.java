@@ -9,7 +9,7 @@ import java.util.List;
 public class PatientDAOJdbcImpl extends DAO<Patient> implements PatientDAO {
     @Override
     public void save(Patient patient) {
-        String sql = "INSERT INTO patient(patient_id, name, address, gender, telephone, area_id, evaluation, life_status, nurse_id) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO patient(patientId, name, address, gender, telephone, areaId, evaluation, lifeStatus, nurseId) VALUES(?,?,?,?,?,?,?,?,?)";
         update(sql, patient.getPatientId(), patient.getName(), patient.getAddress(), patient.getGender(), patient.getTelephone(),
                 patient.getAreaId(), patient.getEvaluation(), patient.getLifeStatus(), patient.getNurseId());
     }
@@ -21,13 +21,13 @@ public class PatientDAOJdbcImpl extends DAO<Patient> implements PatientDAO {
 
     @Override
     public Patient getById(String patientId) {
-        String sql = "SELECT * FROM patient WHERE patient_id = ?";
+        String sql = "SELECT * FROM patient WHERE patientId = ?";
         return get(sql, patientId);
     }
 
     @Override
     public Patient getPatientByBedId(int bedId) {
-        String sql = "SELECT * FROM patient WHERE patient_id = (SELECT patient_id FROM bed WHERE bed_id = ?)";
+        String sql = "SELECT * FROM patient WHERE patientId = (SELECT patientId FROM bed WHERE bedId = ?)";
         return get(sql, bedId);
     }
 
@@ -45,32 +45,32 @@ public class PatientDAOJdbcImpl extends DAO<Patient> implements PatientDAO {
 
     @Override
     public void updateLifeStatusOfPatient(String patientId, int lifeStatus) {
-        String sql = "UPDATE patient SET life_status = ? WHERE patientId = ?";
+        String sql = "UPDATE patient SET lifeStatus = ? WHERE patientId = ?";
         update(sql, lifeStatus, patientId);
 
     }
 
     @Override
     public List<Patient> getPatientsWaitingToTransfer(int areaId) {
-        String sql = "SELECT * FROM patient WHERE area_id != evaluation and area_id = ?";
+        String sql = "SELECT * FROM patient WHERE areaId != evaluation and areaId = ?";
         return getForList(sql, areaId);
     }
 
     @Override
     public List<Patient> getPatientsByArea(int areaId) {
-        String sql = "SELECT * FROM patient WHERE area_id = ?";
+        String sql = "SELECT * FROM patient WHERE areaId = ?";
         return getForList(sql, areaId);
     }
 
     @Override
     public List<Patient> getPatientsByAreaAndLifeStatus(int areaId, int lifeStatus) {
-        String sql = "SELECT * FROM patient WHERE area_id = ? AND life_status = ?";
+        String sql = "SELECT * FROM patient WHERE areaId = ? AND lifeStatus = ?";
         return getForList(sql, areaId, lifeStatus);
     }
 
     @Override
     public List<Patient> getPatientsByLifeStatus(int lifeStatus) {
-        String sql = "SELECT * FROM patient WHERE life_status = ?";
+        String sql = "SELECT * FROM patient WHERE lifeStatus = ?";
         return getForList(sql, lifeStatus);
     }
 
@@ -82,13 +82,13 @@ public class PatientDAOJdbcImpl extends DAO<Patient> implements PatientDAO {
 
     @Override
     public List<Patient> getPatientsByNurseId(int nurseId) {
-        String sql = "SELECT * FROM patient WHERE nurse_id = ?";
+        String sql = "SELECT * FROM patient WHERE nurseId = ?";
         return getForList(sql, nurseId);
     }
 
     @Override
     public Integer getNumberOfPatientsWithSameNurse(int nurseId) {
-        String sql = "SELECT COUNT(patient_id) FROM patient WHERE nurse_id = ?";
+        String sql = "SELECT COUNT(patientId) FROM patient WHERE nurseId = ?";
         return getForValue(sql, nurseId);
     }
 

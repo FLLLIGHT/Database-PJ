@@ -22,27 +22,27 @@ public class PatientService {
     private final int MaxNumberInCritical = 1;
 
     public List<Patient> getPatientsWaitingToTransfer(int areaId){
-        return patientDAO.getPatientsWaitingToTransfer(areaId);
+        return addNurseName(patientDAO.getPatientsWaitingToTransfer(areaId));
     }
 
     public List<Patient> getPatientsByArea(int areaId){
-        return patientDAO.getPatientsByArea(areaId);
+        return addNurseName(patientDAO.getPatientsByArea(areaId));
     }
 
     public List<Patient> getPatientsByAreaAndLifeStatus(int areaId, int lifeStatus){
-        return patientDAO.getPatientsByAreaAndLifeStatus(areaId, lifeStatus);
+        return addNurseName(patientDAO.getPatientsByAreaAndLifeStatus(areaId, lifeStatus));
     }
 
     public List<Patient> getPatientsByLifeStatus(int lifeStatus){
-        return patientDAO.getPatientsByLifeStatus(lifeStatus);
+        return addNurseName(patientDAO.getPatientsByLifeStatus(lifeStatus));
     }
 
     public List<Patient> getPatientsByEvaluation(int evaluation){
-        return patientDAO.getPatientsByEvaluation(evaluation);
+        return addNurseName(patientDAO.getPatientsByEvaluation(evaluation));
     }
 
     public List<Patient> getPatientsByNurseId(int nurseId){
-        return patientDAO.getPatientsByNurseId(nurseId);
+        return addNurseName(patientDAO.getPatientsByNurseId(nurseId));
     }
 
     public List<Patient> getPatientsWaitingToDischargeByArea(int areaId){
@@ -53,7 +53,7 @@ public class PatientService {
                 healedPatients.add(patient);
             }
         }
-        return healedPatients;
+        return addNurseName(healedPatients);
     }
 
     private boolean checkDailyRecord(Patient patient){
@@ -183,6 +183,13 @@ public class PatientService {
             }
         }
         return nurseId;
+    }
+
+    private List<Patient> addNurseName(List<Patient> patients){
+        for(Patient patient : patients){
+            patient.setNurseName(wardNurseDAO.get(patient.getNurseId()).getName());
+        }
+        return patients;
     }
 
     public static void main(String args[]) throws ParseException {

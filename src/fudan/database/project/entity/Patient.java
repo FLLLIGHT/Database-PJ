@@ -11,6 +11,8 @@ public class Patient {
     private int lifeStatus;
     private int nurseId;
 
+    private String nurseName;
+
     public Patient(String patientId, String name, String address, String gender, String telephone, int evaluation) {
         this.patientId = patientId;
         this.name = name;
@@ -106,5 +108,13 @@ public class Patient {
 
     public void setNurseId(int nurseId) {
         this.nurseId = nurseId;
+    }
+
+    public String getNurseName() {
+        return nurseName;
+    }
+
+    public void setNurseName(String nurseName) {
+        this.nurseName = nurseName;
     }
 }

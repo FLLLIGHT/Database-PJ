@@ -8,6 +8,8 @@ public interface WardNurseDAO {
     public List<WardNurse> getWardNursesByArea(int areaId);
 
     public WardNurse get(String name);
+    public WardNurse get(int wardNurseId);
+
 
     public void save(WardNurse wardNurse);
 
