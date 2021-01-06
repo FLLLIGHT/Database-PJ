@@ -30,6 +30,14 @@ public class PatientService {
         return patientDAO.getPatientsByAreaAndLifeStatus(areaId, lifeStatus);
     }
 
+    public List<Patient> getPatientsByLifeStatus(int lifeStatus){
+        return patientDAO.getPatientsByLifeStatus(lifeStatus);
+    }
+
+    public List<Patient> getPatientsByEvaluation(int evaluation){
+        return patientDAO.getPatientsByEvaluation(evaluation);
+    }
+
     public List<Patient> getPatientsByNurseId(int nurseId){
         return patientDAO.getPatientsByNurseId(nurseId);
     }

@@ -69,6 +69,18 @@ public class PatientDAOJdbcImpl extends DAO<Patient> implements PatientDAO {
     }
 
     @Override
+    public List<Patient> getPatientsByLifeStatus(int lifeStatus) {
+        String sql = "SELECT * FROM patient WHERE life_status = ?";
+        return getForList(sql, lifeStatus);
+    }
+
+    @Override
+    public List<Patient> getPatientsByEvaluation(int evaluation) {
+        String sql = "SELECT * FROM patient WHERE evaluation = ?";
+        return getForList(sql, evaluation);
+    }
+
+    @Override
     public List<Patient> getPatientsByNurseId(int nurseId) {
         String sql = "SELECT * FROM patient WHERE nurse_id = ?";
         return getForList(sql, nurseId);
