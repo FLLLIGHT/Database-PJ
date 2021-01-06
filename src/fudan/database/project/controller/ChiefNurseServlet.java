@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,6 +114,26 @@ public class ChiefNurseServlet  extends HttpServlet {
         Patient patient = patientService.getPatientByBed(bedId);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("patient", patient);
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
+    }
+
+    private void addWardNurse(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        HttpSession session = request.getSession();
+        ChiefNurse chiefNurse = (ChiefNurse)session.getAttribute("user");
+        String name = request.getParameter("name");
+        String password = request.getParameter("password");
+        //只能给自己的area里加护士
+        nurseService.addWardNurse(name, password, chiefNurse.getAreaId());
+    }
+
+    private void deleteWardNurse(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        HttpSession session = request.getSession();
+        ChiefNurse chiefNurse = (ChiefNurse)session.getAttribute("user");
+        int nurseId = Integer.parseInt(request.getParameter("nurseId"));
+        String message = nurseService.deleteWardNurse(nurseId);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("message", message);
         JSONObject mapJson = JSONObject.fromObject(map);
         response.getWriter().print(mapJson);
     }

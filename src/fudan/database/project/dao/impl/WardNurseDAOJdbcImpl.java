@@ -19,4 +19,16 @@ public class WardNurseDAOJdbcImpl extends DAO<WardNurse> implements WardNurseDAO
         String sql = "SELECT ward_nurse_id, name, password, area_id FROM ward_nurse WHERE name = ?";
         return get(sql, name);
     }
+
+    @Override
+    public void save(WardNurse wardNurse) {
+        String sql = "INSERT INTO ward_nurse(name, password, area_id) VALUES(?,?,?)";
+        update(sql, wardNurse.getName(), wardNurse.getPassword(), wardNurse.getAreaId());
+    }
+
+    @Override
+    public void delete(int nurseId) {
+        String sql = "DELETE FROM ward_nurse WHERE ward_nurse_id = ?";
+        update(sql, nurseId);
+    }
 }

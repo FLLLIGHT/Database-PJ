@@ -6,6 +6,12 @@ public class WardNurse {
     private String password;
     private int areaId;
 
+    public WardNurse(String name, String password, int areaId) {
+        this.name = name;
+        this.password = password;
+        this.areaId = areaId;
+    }
+
     public int getWardNurseId() {
         return wardNurseId;
     }
