@@ -105,8 +105,32 @@ public class AccountServlet extends HttpServlet {
         map.put("messages", "success");
         JSONObject mapJson = JSONObject.fromObject(map);
         response.getWriter().print(mapJson);
-
     }
 
+    private void jumpToHome(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession();
+        String type = (String) session.getAttribute("userType");
+        switch (type){
+            case "doctor":
+                request.getRequestDispatcher("/jsp/doctor.jsp").forward(request, response);
+                break;
+            case "chief nurse":
+                request.getRequestDispatcher("/jsp/chiefNurse.jsp").forward(request, response);
+                break;
+            case "ward nurse":
+                request.getRequestDispatcher("/jsp/wardNurse.jsp").forward(request, response);
+                break;
+            case "emergency nurse":
+                request.getRequestDispatcher("/jsp/emergencyNurse.jsp").forward(request, response);
+                break;
+        }
+    }
+
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession();
+        session.removeAttribute("userType");
+        session.removeAttribute("user");
+        request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+    }
 
 }
