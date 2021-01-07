@@ -87,6 +87,12 @@ public class PatientDAOJdbcImpl extends DAO<Patient> implements PatientDAO {
     }
 
     @Override
+    public List<Patient> getPatientsByNurseIdAndLifeStatus(int nurseId, int lifeStatus) {
+        String sql = "SELECT * FROM patient WHERE nurseId = ? AND lifeStatus = ?";
+        return getForList(sql, nurseId, lifeStatus);
+    }
+
+    @Override
     public Integer getNumberOfPatientsWithSameNurse(int nurseId) {
         String sql = "SELECT COUNT(patientId) FROM patient WHERE nurseId = ?";
         return getForValue(sql, nurseId);

@@ -53,6 +53,11 @@ public class EmergencyNurseServlet extends HttpServlet {
         String message = patientService.registerPatient(name, address, gender, telephone, evaluation);
         request.setAttribute("message", message);
         request.getRequestDispatcher("/jsp/emergencyNurse.jsp").forward(request, response);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("messages", "success");
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
+
     }
 
     private void queryPatientsByArea(HttpServletRequest request, HttpServletResponse response) throws IOException{

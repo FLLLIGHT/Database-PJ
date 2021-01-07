@@ -24,7 +24,7 @@ public interface PatientDAO {
     public List<Patient> getPatientsByAreaAndLifeStatus(int areaId, int lifeStatus);
     public List<Patient> getPatientsByLifeStatus(int lifeStatus);
     public List<Patient> getPatientsByEvaluation(int evaluation);
-
+    public List<Patient> getPatientsByNurseIdAndLifeStatus(int nurseId, int lifeStatus);
     public List<Patient> getPatientsWaitingToTransfer(int areaId);
 
     public List<Patient> getPatientsByNurseId(int nurseId);
