@@ -133,7 +133,7 @@ public class PatientService {
     }
 
     public Patient getPatientByBed(int bedId){
-        return patientDAO.getPatientByBedId(bedId);
+        return addNurseName(patientDAO.getPatientByBedId(bedId));
     }
 
     public String moveArea(String patientId, int toAreaId){
@@ -227,10 +227,15 @@ public class PatientService {
         return nurseId;
     }
 
+    private Patient addNurseName(Patient patient){
+        patient.setNurseName(wardNurseDAO.get(patient.getNurseId()).getName());
+        return patient;
+    }
+
     private List<Patient> addNurseName(List<Patient> patients){
         for(Patient patient : patients){
             if(patient.getNurseId()==-1) continue;
-            patient.setNurseName(wardNurseDAO.get(patient.getNurseId()).getName());
+            addNurseName(patient);
         }
         return patients;
     }

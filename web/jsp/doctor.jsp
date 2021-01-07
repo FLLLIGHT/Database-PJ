@@ -30,6 +30,13 @@
     <div id="queryResult" style="display: none">
         <table class="table" id="resultTable"><</table>
     </div>
+    <div>
+        <h2 id="chiefNurse"></h2>
+    </div>
+    <div>
+        <h2>病房护士</h2>
+        <div class="accordion" id="accordion"></div>
+    </div>
 </div>
 
 <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -49,6 +56,7 @@
         </div>
     </div>
 </div>
+</body>
 
 <script>
     function showQuery() {
@@ -69,7 +77,7 @@
 
     function submitQuery() {
         var d = {}
-        if($('#Indentity') == "PatientsByLifeStatus"){
+        if($('#Indentity').val() == "PatientsByLifeStatus"){
             d['lifeStatus'] = $('#subIndentity').val();
         }
         $.post(
@@ -254,6 +262,75 @@
         $('#Modal').modal('show');
     };
 
+    $(document).ready(function () {
+        d = {};
+        $.post("/Database_PJ_war_exploded/doctor/queryChiefNurse", d,
+            function (result) {
+                result = JSON.parse(result);
+                $('#chiefNurse').text('护士长: ' + result["chiefNurse"]["name"]);
+            }
+        );
+        $.post("/Database_PJ_war_exploded/doctor/queryWardNurse", d,
+            function (result) {
+                result = JSON.parse(result);
+                for(i=0; i<result["wardNurses"].length; i++){
+                    let p = result["wardNurses"][i];
+                    let id = p["wardNurseId"];
+                    let name = p["name"];
+                    let dd = {};
+                    dd["nurseId"] = id;
+                    let tableElement = $('<table class="table" id="resultTable"></table>');
+                    tableElement.append(
+                        "<tr>" +
+                        "<th>姓名</th>" +
+                        "<th>性别</th>" +
+                        "<th>电话号码</th>" +
+                        "<th>家庭地址</th>" +
+                        "<th>病情评级</th>" +
+                        "<th>生命状态</th>" +
+                        "<th>区域</th>" +
+                        "<th>负责护士</th>" +
+                        "</tr>"
+                    );
+                    $.post('/Database_PJ_war_exploded/doctor/queryPatientsByNurse', dd,
+                        function (result) {
+                            var data = JSON.parse(result)["patients"];
+                            for(i=0; i<data.length; i++){
+                                let q = data[i];
+                                tableElement.append(
+                                    "<tr>" +
+                                    "<td>" + q["name"] + "</td>" +
+                                    "<td>" + q["gender"] + "</td>" +
+                                    "<td>" + q["telephone"] + "</td>" +
+                                    "<td>" + q["address"] + "</td>" +
+                                    "<td>" + id2Evaluation[q["evaluation"]] + "</td>" +
+                                    "<td>" + id2Status[q["lifeStatus"]] + "</td>" +
+                                    "<td>" + id2Area[q["areaId"]] + "</td>" +
+                                    "<td>" + q["nurseName"] + "</td>" +
+                                    "</tr>"
+                                );
+                            }
+                        }
+                    );
+                    var cardElement = $("<div class='card'></div>");
+                    var headerElement = $("<div class='card-header' id='heading" + id + "'>" +
+                                          "      <h2 class='mb-0'>" +
+                                          "        <button class='btn btn-link' type='button' data-toggle='collapse' data-target='#collapse" + id + "' aria-expanded='true' aria-controls='collapse" + id + "'>" +
+                                          name +
+                                          "        </button>" +
+                                          "      </h2>" +
+                                          "    </div>");
+                    var collapseElement = $("<div id='collapse" + id + "' class='collapse show' aria-labelledby='heading" + id + "' data-parent='#accordion'></div>");
+                    var bodyElement = $("<div class=\"card-body\"></div>");
+                    bodyElement.append(tableElement);
+                    collapseElement.append(bodyElement);
+                    cardElement.append(headerElement);
+                    cardElement.append(collapseElement);
+                    $('#accordion').append(cardElement);
+                }
+            }
+        );
+    });
+
 </script>
-</body>
 </html>
