@@ -18,6 +18,7 @@ public class NurseService {
     ChiefNurseDAO chiefNurseDAO = new ChiefNurseDAOJdbcImpl();
     WardNurseDAO wardNurseDAO = new WardNurseDAOJdbcImpl();
     PatientDAO patientDAO = new PatientDAOJdbcImpl();
+    PatientService patientService = new PatientService();
     BedDAO bedDAO = new BedDAOJdbcImpl();
     public ChiefNurse getChiefNurseByArea(int areaId){
         return chiefNurseDAO.getChiefNurseByArea(areaId);
@@ -34,6 +35,8 @@ public class NurseService {
     public void addWardNurse(String name, String password, int areaId){
         WardNurse wardNurse = new WardNurse(name, password, areaId);
         wardNurseDAO.save(wardNurse);
+        //检查是不是有可以转移的
+        patientService.autoTransfer();
     }
 
     public String deleteWardNurse(int nurseId){

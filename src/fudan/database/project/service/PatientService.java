@@ -19,6 +19,7 @@ public class PatientService {
     private final DailyRecordDAO dailyRecordDAO = new DailyRecordDAOJdbcImpl();
     private final MessageService messageService = new MessageService();
     private final NurseService nurseService = new NurseService();
+    private final DoctorDAO doctorDAO = new DoctorDAOJdbcImpl();
     private final int MaxNumberInMild = 3;
     private final int MaxNumberInSevere = 2;
     private final int MaxNumberInCritical = 1;
@@ -27,7 +28,7 @@ public class PatientService {
         return addNurseName(patientDAO.getPatientsWaitingToTransfer(areaId));
     }
 
-    private void autoTransfer(){
+    public void autoTransfer(){
         //从隔离区开始查询
         for(int i=4; i>=1; i--){
             //找到该区域中待转移的病人
@@ -85,6 +86,8 @@ public class PatientService {
         //todo：再次检查病人是不是真的符合出院条件
         //todo：检查病人的evaluation？
         patientDAO.updateLifeStatusOfPatient(patientId, 1);
+        //移开床的关联关系
+        bedDAO.updateByPatientId("", bedDAO.getBedByPatientId(patientId).getBedId());
     }
 
     private boolean checkTestResult(Patient patient){
@@ -110,11 +113,22 @@ public class PatientService {
     public void addTestResult(String patientId, Date date, String result, int evaluation){
         TestResult testResult = new TestResult(patientId, date, result, evaluation);
         testResultDAO.save(testResult);
+        checkAndSendDischargeMessage(patientId);
+    }
+
+    private void checkAndSendDischargeMessage(String patientId){
+        //检查加入这个daily record后是不是符合出院条件，如果是，则给主治医生发消息
+        Patient patient = patientDAO.getById(patientId);
+        if(checkTestResult(patient)&&checkDailyRecord(patient)){
+            String messageContent = "Patient " + patient.getName() + " is waiting to be discharged! please check it out.";
+            messageService.sendMessage(doctorDAO.get(patient.getAreaId()).getDoctorId(), 1, messageContent);
+        }
     }
 
     public void addDailyRecord(String patientId, float temperature, String symptom, int lifeStatus, Date date){
         DailyRecord dailyRecord = new DailyRecord(patientId, temperature, symptom, lifeStatus, date);
         dailyRecordDAO.save(dailyRecord);
+        checkAndSendDischargeMessage(patientId);
     }
 
     public Patient getPatientByBed(int bedId){
