@@ -24,4 +24,10 @@ public class DoctorDAOJdbcImpl extends DAO<Doctor> implements DoctorDAO {
         String sql = "SELECT doctorId, name, password, areaId FROM doctor WHERE name = ?";
         return get(sql, name);
     }
+
+    @Override
+    public Doctor get(int areaId) {
+        String sql = "SELECT doctorId, name, password, areaId FROM doctor WHERE areaId = ?";
+        return get(sql, areaId);
+    }
 }
