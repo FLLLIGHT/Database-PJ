@@ -25,6 +25,19 @@ public class PatientService {
         return addNurseName(patientDAO.getPatientsWaitingToTransfer(areaId));
     }
 
+    private void autoTransfer(){
+        //从隔离区开始查询
+        for(int i=4; i>=1; i--){
+            //找到该区域中待转移的病人
+            List<Patient> patients = getPatientsWaitingToTransfer(i);
+            for(Patient patient : patients){
+                int fromArea = patient.getAreaId();
+                int toArea = patient.getEvaluation();
+                moveArea(patient.getPatientId(), toArea);
+            }
+        }
+    }
+
     public List<Patient> getPatientsByArea(int areaId){
         return addNurseName(patientDAO.getPatientsByArea(areaId));
     }
@@ -127,6 +140,8 @@ public class PatientService {
         bedDAO.updateByPatientId(patientId, bedId);
         //修改护士信息
         patientDAO.updateNurseIdOfPatient(patientId, nurseId);
+        //如果移动成功，尝试进一步移动（递归调用）
+        autoTransfer();
         return "Move success";
     }
 
@@ -192,6 +207,13 @@ public class PatientService {
         return patients;
     }
 
+    private int differentDaysByMillisecond(Date date1, Date date2)
+    {
+        return (int) ((date2.getTime() - date1.getTime()) / (1000*3600*24));
+    }
+
+
+
     public static void main(String args[]) throws ParseException {
 //        for(int i=0; i<10; i++){
 //            UUID uuid = UUID.randomUUID();
@@ -204,11 +226,6 @@ public class PatientService {
 //        int result = differentDaysByMillisecond(oldTime, newTime);
 //        System.out.println(result);
 
-    }
-
-    private int differentDaysByMillisecond(Date date1, Date date2)
-    {
-        return (int) ((date2.getTime() - date1.getTime()) / (1000*3600*24));
     }
 
 }
