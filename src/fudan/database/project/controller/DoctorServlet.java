@@ -58,6 +58,7 @@ public class DoctorServlet extends HttpServlet {
     }
 
     private void queryAllPatientsInArea(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        System.out.println("=============================");
         HttpSession session = request.getSession();
         Doctor doctor = (Doctor)session.getAttribute("user");
         List<Patient> patients = patientService.getPatientsByArea(doctor.getAreaId());
