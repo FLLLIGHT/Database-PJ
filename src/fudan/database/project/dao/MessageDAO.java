@@ -8,5 +8,5 @@ public interface MessageDAO {
     public void save(Message message);
     public List<Message> get(int toId, int toType);
     public Message getByMessageId(int messageId);
-    public void update(int toId);
+    public void update(int messageId);
 }

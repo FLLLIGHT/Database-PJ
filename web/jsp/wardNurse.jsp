@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>login</title>
+    <title>wardNurse</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -10,6 +10,7 @@
     <script src="http://lib.h-ui.net/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
 </head>
 <body>
+<div><a href="/Database_PJ_war_exploded/jsp/account.jsp" class="btn-primary">个人信息&站内信</a></div>
 <div>
     <button class="btn-primary" onclick="showQuery()">查询病人情况</button>
     <div id="queryPatient" style="display: none">

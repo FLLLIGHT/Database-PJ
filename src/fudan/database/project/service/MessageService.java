@@ -19,8 +19,6 @@ public class MessageService {
     }
 
     public void markMessageAsRead(int messageId){
-        Message message = messageDAO.getByMessageId(messageId);
-        message.setAlreadyRead(1);
-        messageDAO.save(message);
+        messageDAO.update(messageId);
     }
 }

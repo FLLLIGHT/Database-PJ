@@ -26,8 +26,8 @@ public class MessageDAOJdbcImpl extends DAO<Message> implements MessageDAO {
     }
 
     @Override
-    public void update(int toId) {
-        String sql = "UPDATE message SET alreadyRead = 1 WHERE toId = ?";
-        update(sql, toId);
+    public void update(int messageId) {
+        String sql = "UPDATE message SET alreadyRead = 1 WHERE messageId = ?";
+        update(sql, messageId);
     }
 }

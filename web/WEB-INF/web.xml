@@ -47,4 +47,13 @@
         <servlet-name>doctorServlet</servlet-name>
         <url-pattern>/doctor/*</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>messageServlet</servlet-name>
+        <servlet-class>fudan.database.project.controller.MessageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>messageServlet</servlet-name>
+        <url-pattern>/message/*</url-pattern>
+    </servlet-mapping>
 </web-app>
