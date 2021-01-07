@@ -17,7 +17,7 @@ public interface PatientDAO {
 
     public void updateLifeStatusOfPatient(String patientId, int lifeStatus);
 
-    public void updateNurseIdOfPatient(String patientId, int nurseId);
+    public void updateNurseIdAndAreaOfPatient(String patientId, int nurseId, int areaId);
 
     public List<Patient> getPatientsByArea(int areaId);
 

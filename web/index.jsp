@@ -13,5 +13,5 @@
   <body>
   $END$
   </body>
-<script>window.location.replace("http://localhost:8080/Database_PJ_war_exploded/jsp/emergencyNurse.jsp")</script>
+<script>window.location.replace("http://localhost:8080/Database_PJ_war_exploded/jsp/login.jsp")</script>
 </html>

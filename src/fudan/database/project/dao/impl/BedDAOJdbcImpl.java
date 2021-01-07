@@ -27,7 +27,7 @@ public class BedDAOJdbcImpl extends DAO<Bed> implements BedDAO {
 
     @Override
     public Bed getBedByPatientId(String patientId) {
-        String sql = "SELECT bedId, patientId, roomId FROM bed WHERE patientId = ''";
+        String sql = "SELECT bedId, patientId, roomId FROM bed WHERE patientId = ?";
         return get(sql, patientId);
     }
 }

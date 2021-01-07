@@ -22,11 +22,11 @@
         </div>
         <div class="form-group">
             <label for="loginName"><h3>Username</h3></label>
-            <input class="input-group" type="text" name="userName" id="loginName" style="max-width: 300px; height: 40px" placeholder="username">
+            <input class="input-group" type="text" name="name" id="loginName" style="max-width: 300px; height: 40px" placeholder="username">
         </div>
         <div class="form-group">
             <label for="loginPass"><h3>Password</h3></label>
-            <input class="input-group" type="text" name="pass" id="loginPass" style="max-width: 300px; height: 40px" placeholder="password">
+            <input class="input-group" type="text" name="password" id="loginPass" style="max-width: 300px; height: 40px" placeholder="password">
         </div>
         <div class="form-group">
             <button class="btn-default" type="submit" value="submit" style="width: 80px; height: 40px; margin-top: 30px;">Login</button>

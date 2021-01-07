@@ -138,10 +138,14 @@ public class PatientService {
         //否则即有空床+护士
         //修改床信息
         Patient patient = patientDAO.getById(patientId);
-        bedDAO.updateByPatientId("", bedDAO.getBedByPatientId(patientId).getBedId());
+        Bed bed = bedDAO.getBedByPatientId(patientId);
+        //删掉原来的bed信息（如果存在的话）
+        if(bed!=null){
+            bedDAO.updateByPatientId("", bed.getBedId());
+        }
         bedDAO.updateByPatientId(patientId, bedId);
         //修改护士信息
-        patientDAO.updateNurseIdOfPatient(patientId, nurseId);
+        patientDAO.updateNurseIdAndAreaOfPatient(patientId, nurseId, toAreaId);
         //给护士长发送提醒信息
         String messageContent = "A new patient: " + patient.getName() + " has come to your Area! Please check it out.";
         messageService.sendMessage(nurseService.getChiefNurseByArea(toAreaId).getChiefNurseId(), 2, messageContent);
@@ -210,6 +214,7 @@ public class PatientService {
 
     private List<Patient> addNurseName(List<Patient> patients){
         for(Patient patient : patients){
+            if(patient.getNurseId()==-1) continue;
             patient.setNurseName(wardNurseDAO.get(patient.getNurseId()).getName());
         }
         return patients;

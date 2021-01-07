@@ -68,6 +68,8 @@ public class AccountServlet extends HttpServlet {
         if(session.getAttribute("user") == null){
             request.setAttribute("loginStatus", "false");
             request.setAttribute("message", "There is something wrong with your <b>username or password</b>, please check and try again!");
+            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+            return;
         }else{
             session.setAttribute("userType", type);
             request.setAttribute("loginStatus", "true");

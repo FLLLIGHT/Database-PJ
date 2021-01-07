@@ -114,7 +114,7 @@
             p = p.replace(p[0], p[0].toLowerCase());
             var d = {};
             d[p] = $('#subIndentity').val();
-            $.post('/Database_PJ_war_exploded//emergency/queryPatientsBy' + $('#Indentity').val(), d,
+            $.post('/Database_PJ_war_exploded/emergency/queryPatientsBy' + $('#Indentity').val(), d,
                 function (result) {
                     result2Table(JSON.parse(result)["patients"]);
                 }
@@ -127,7 +127,6 @@
     var id2Evaluation = ['', "轻症", "重症", "危重症"];
 
     function result2Table(data) {
-        console.log(data);
         $('#resultTable').empty();
         $('#resultTable').append(
             "<tr>" +

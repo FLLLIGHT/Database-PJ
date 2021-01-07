@@ -38,9 +38,9 @@ public class PatientDAOJdbcImpl extends DAO<Patient> implements PatientDAO {
     }
 
     @Override
-    public void updateNurseIdOfPatient(String patientId, int nurseId) {
-        String sql = "UPDATE patient SET nurseId = ? WHERE patientId = ?";
-        update(sql, nurseId, patientId);
+    public void updateNurseIdAndAreaOfPatient(String patientId, int nurseId, int areaId) {
+        String sql = "UPDATE patient SET nurseId = ?, areaId = ? WHERE patientId = ?";
+        update(sql, nurseId, areaId, patientId);
     }
 
     @Override
