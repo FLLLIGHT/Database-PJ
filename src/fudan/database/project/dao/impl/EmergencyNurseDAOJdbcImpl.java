@@ -15,6 +15,12 @@ public class EmergencyNurseDAOJdbcImpl extends DAO<EmergencyNurse> implements Em
     }
 
     @Override
+    public void update(EmergencyNurse emergencyNurse) {
+        String sql = "UPDATE emergency_nurse SET name = ?, password = ? WHERE emergencyNurseId = ?";
+        update(sql, emergencyNurse.getName(), emergencyNurse.getPassword(), emergencyNurse.getEmergencyNurseId());
+    }
+
+    @Override
     public EmergencyNurse get(String name) {
         String sql = "SELECT emergencyNurseId, name, password FROM emergency_nurse WHERE name = ?";
         return get(sql, name);

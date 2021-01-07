@@ -8,6 +8,6 @@ public interface ChiefNurseDAO {
     public List<ChiefNurse> getAll();
 
     public ChiefNurse get(String name);
-
+    public void update(ChiefNurse chiefNurse);
     public ChiefNurse getChiefNurseByArea(int areaId);
 }

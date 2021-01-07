@@ -21,6 +21,12 @@ public class ChiefNurseDAOJdbcImpl extends DAO<ChiefNurse> implements ChiefNurse
     }
 
     @Override
+    public void update(ChiefNurse chiefNurse) {
+        String sql = "UPDATE chief_nurse SET name = ?, password = ? WHERE chiefNurseId = ?";
+        update(sql, chiefNurse.getName(), chiefNurse.getPassword(), chiefNurse.getChiefNurseId());
+    }
+
+    @Override
     public ChiefNurse getChiefNurseByArea(int areaId) {
         String sql = "SELECT chiefNurseId, name, password, areaId FROM chief_nurse WHERE areaId = ?";
         return get(sql, areaId);

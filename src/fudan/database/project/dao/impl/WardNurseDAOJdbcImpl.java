@@ -21,6 +21,12 @@ public class WardNurseDAOJdbcImpl extends DAO<WardNurse> implements WardNurseDAO
     }
 
     @Override
+    public void update(WardNurse wardNurse) {
+        String sql = "UPDATE ward_nurse SET name = ?, password = ? WHERE wardNurseId = ?";
+        update(sql, wardNurse.getName(), wardNurse.getPassword(), wardNurse.getWardNurseId());
+    }
+
+    @Override
     public WardNurse get(int wardNurseId) {
         String sql = "SELECT wardNurseId, name, password, areaId FROM ward_nurse WHERE wardNurseId = ?";
         return get(sql, wardNurseId);

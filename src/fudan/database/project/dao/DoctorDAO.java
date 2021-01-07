@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface DoctorDAO {
     public List<Doctor> getAll();
-
+    public void update(Doctor doctor);
     public Doctor get(String name);
 }

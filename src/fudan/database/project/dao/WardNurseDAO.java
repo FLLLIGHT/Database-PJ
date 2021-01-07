@@ -10,7 +10,7 @@ public interface WardNurseDAO {
     public WardNurse get(String name);
     public WardNurse get(int wardNurseId);
 
-
+    public void update(WardNurse wardNurse);
     public void save(WardNurse wardNurse);
 
     public void delete(int nurseId);

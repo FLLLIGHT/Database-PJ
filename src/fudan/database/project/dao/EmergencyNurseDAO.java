@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface EmergencyNurseDAO {
     public List<EmergencyNurse> getAll();
-
+    public void update(EmergencyNurse emergencyNurse);
     public EmergencyNurse get(String name);
 }

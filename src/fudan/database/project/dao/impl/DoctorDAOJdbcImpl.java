@@ -14,6 +14,12 @@ public class DoctorDAOJdbcImpl extends DAO<Doctor> implements DoctorDAO {
     }
 
     @Override
+    public void update(Doctor doctor) {
+        String sql = "UPDATE doctor SET name = ?, password = ? WHERE doctorId = ?";
+        update(sql, doctor.getName(), doctor.getPassword(), doctor.getDoctorId());
+    }
+
+    @Override
     public Doctor get(String name) {
         String sql = "SELECT doctorId, name, password, areaId FROM doctor WHERE name = ?";
         return get(sql, name);

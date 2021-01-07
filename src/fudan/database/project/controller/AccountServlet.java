@@ -88,4 +88,16 @@ public class AccountServlet extends HttpServlet {
                 break;
         }
     }
+
+
+    private void changeInfo(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String name = request.getParameter("name");
+        String password = request.getParameter("password");
+
+        HttpSession session = request.getSession();
+        accountService.changeInfo(session, name, password);
+        
+    }
+
+
 }
