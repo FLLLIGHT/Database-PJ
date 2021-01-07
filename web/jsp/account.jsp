@@ -12,7 +12,16 @@
 <div>
     <button class="btn-primary" onclick="changeInfo()">修改用户名&密码</button>
 </div>
-
+<div>
+    <form action="/Database_PJ_war_exploded/account/jumpToHome" method="post">
+        <button type="submit" class="btn-primary">返回主界面</button>
+    </form>
+</div>
+<div>
+    <form action="/Database_PJ_war_exploded/account/logout" method="post">
+        <button type="submit" class="btn-primary">登出</button>
+    </form>
+</div>
 <div>
     <h2>未读站内信</h2>
     <div class="accordion" id="accordion"></div>

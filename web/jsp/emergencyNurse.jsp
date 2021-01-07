@@ -10,6 +10,11 @@
 </head>
 <body>
 <div><a href="/Database_PJ_war_exploded/jsp/account.jsp" class="btn-primary">个人信息&站内信</a></div>
+<div>
+    <form action="/Database_PJ_war_exploded/account/logout" method="post">
+        <button type="submit" class="btn-primary">登出</button>
+    </form>
+</div>
     <div>
         <button class="btn-primary" id="addButton" onclick="showAdd()">新增病人</button>
         <div id="addPatient" style="display: none">
