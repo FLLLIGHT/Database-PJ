@@ -10,13 +10,13 @@ import java.util.List;
 public class TestResultDAOJdbcImpl extends DAO<TestResult> implements TestResultDAO {
     @Override
     public void save(TestResult testResult) {
-        String sql = "INSERT INTO test_result(patientId, testDate, testResult, evaluation) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO test_result(patientId, date, testResult, evaluation) VALUES(?,?,?,?)";
         update(sql, testResult.getPatientId(), testResult.getDate(), testResult.getTestResult(), testResult.getEvaluation());
     }
 
     @Override
     public List<TestResult> getTestResultsByPatientId(String patientId) {
-        String sql = "SELECT * FROM test_result WHERE patientId = ? ORDER BY testDate DESC";
+        String sql = "SELECT * FROM test_result WHERE patientId = ? ORDER BY date DESC";
         return getForList(sql, patientId);
     }
 }

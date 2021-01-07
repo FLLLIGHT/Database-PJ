@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="http://lib.h-ui.net/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
 </head>
 <body>
 <div>
@@ -118,8 +119,8 @@
                 "<td>" + p["nurseName"] + "</td>" +
                 "<td><button class='btn-primary' onclick='updateEvaluation($(this).parent().parent().index())'>修改病情评级</button></td>" +
                 "<td><button class='btn-primary' onclick='updateLifeStatus($(this).parent().parent().index())'>修改生命状态</button></td>" +
-                "<td><button class='btn-primary' onclick='addTest($(this).parent().parent().index()'>进行核酸检测</button></td>" +
-                "<td><button class='btn-primary' onclick='outHospital($(this).parent().parent().index()'>康复出院</button></td>" +
+                "<td><button class='btn-primary' onclick='addTest($(this).parent().parent().index())'>进行核酸检测</button></td>" +
+                "<td><button class='btn-primary' onclick='outHospital($(this).parent().parent().index())'>康复出院</button></td>" +
                 "</tr>"
             );
         }
@@ -137,13 +138,19 @@
             "<option value='3'>危重症</option>" +
             "</select>"
         );
-        $('#modalOKButton').click(function () {
+        $('#modalOKButton').unbind('click').click(function () {
             var d = {};
             d["patientId"] = id;
             d["evaluation"] = $('#updateEvaSelect').val();
             $.post("/Database_PJ_war_exploded/doctor/updateEvaluationOfPatient", d,
                 function (result) {
-                    console.log(result);
+                    result = JSON.parse(result);
+                    if(result["message"] == "success"){
+                        alert("成功修改");
+                        window.location.reload();
+                    }else {
+                        alert("修改失败，" + result["message"]);
+                    }
                 }
             )
         });
@@ -151,16 +158,102 @@
     };
     
     function updateLifeStatus(index) {
-        console.log(dd);
+        let id = patientsIds[index];
+        $('#ModalLabel').text("修改生命状态");
+        $('#modalBody').empty();
+        $('#modalBody').append(
+            "<select id='updateLifeSelect'>" +
+            "<option value='1'>已治愈</option>" +
+            "<option value='2'>住院</option>" +
+            "<option value='3'>死亡</option>" +
+            "</select>"
+        );
+        $('#modalOKButton').unbind('click').click(function () {
+            var d = {};
+            d["patientId"] = id;
+            d["lifeStatus"] = $('#updateLifeSelect').val();
+            $.post("/Database_PJ_war_exploded/doctor/updateLifeStatusOfPatient", d,
+                function (result) {
+                    result = JSON.parse(result);
+                    if(result["message"] == "success"){
+                        alert("成功修改");
+                        window.location.reload();
+                    }else {
+                        alert("修改失败，" + result["message"]);
+                    }
+                }
+            )
+        });
+        $('#Modal').modal('show');
     };
     
-    function addTest() {
-        
+    function addTest(index) {
+        let id = patientsIds[index];
+        $('#ModalLabel').text("新增核酸检测");
+        $('#modalBody').empty();
+        $('#modalBody').append(
+            "<div><div>检测结果</div><select id='updateTestSelect1'>" +
+            "<option value='positive'>阳性</option>" +
+            "<option value='negative'>阴性</option>" +
+            "</select></div>"
+        );
+        $('#modalBody').append(
+            "<div><div>病情评级</div><select id='updateTestSelect2'>" +
+            "<option value='1'>轻症</option>" +
+            "<option value='2'>重症</option>" +
+            "<option value='3'>危重症</option>" +
+            "</select></div>"
+        );
+        $('#modalBody').append(
+            "<div><div>检测时间</div><input id='timePicker'></input></div>"
+        );
+        $('#timePicker').datetimepicker({
+            format: "yyyy-mm-dd hh:ii:ss",
+            autoclose: true
+        });
+        $('#modalOKButton').unbind('click').click(function () {
+            var d = {};
+            d["patientId"] = id;
+            d["result"] = $('#updateTestSelect1').val();
+            d["evaluation"] = $('#updateTestSelect2').val();
+            d["date"] = $('#timePicker').val();
+            $.post("/Database_PJ_war_exploded/doctor/addTestResult", d,
+                function (result) {
+                    result = JSON.parse(result);
+                    if(result["message"] == "success"){
+                        alert("添加成功");
+                        window.location.reload();
+                    }else {
+                        alert("添加失败，" + result["message"]);
+                    }
+                }
+            )
+        });
+        $('#Modal').modal('show');
     };
     
-    function outHospital() {
+    function outHospital(index) {
+        let id = patientsIds[index];
+        $('#ModalLabel').text("病人出院");
+        $('#modalBody').empty();
+        $('#modalOKButton').unbind('click').click(function () {
+            var d = {};
+            d["patientId"] = id;
+            $.post("/Database_PJ_war_exploded/doctor/dischargePatient", d,
+                function (result) {
+                    result = JSON.parse(result);
+                    if(result["message"] == "success"){
+                        alert("成功出院");
+                        window.location.reload();
+                    }else {
+                        alert("出院失败，" + result["message"]);
+                    }
+                }
+            )
+        });
+        $('#Modal').modal('show');
+    };
 
-    };
 </script>
 </body>
 </html>

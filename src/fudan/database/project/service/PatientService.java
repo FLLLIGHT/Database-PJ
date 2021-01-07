@@ -92,6 +92,7 @@ public class PatientService {
 
     private boolean checkTestResult(Patient patient){
         List<TestResult> testResults = testResultDAO.getTestResultsByPatientId(patient.getPatientId());
+        if(testResults.size()==0) return false;
         if(testResults.get(0).getTestResult().equals("positive")) return false;
         Date date = testResults.get(0).getDate();
         for(int i=1; i<testResults.size(); i++){

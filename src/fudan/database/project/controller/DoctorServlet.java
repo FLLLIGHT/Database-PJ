@@ -135,7 +135,7 @@ public class DoctorServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Doctor doctor = (Doctor)session.getAttribute("user");
         String patientId = request.getParameter("patientId");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
         try {
             date = df.parse(request.getParameter("date"));
@@ -145,6 +145,11 @@ public class DoctorServlet extends HttpServlet {
         String result = request.getParameter("result");
         int evaluation = Integer.parseInt(request.getParameter("evaluation"));
         patientService.addTestResult(patientId, date, result, evaluation);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("message", "success");
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
     }
 
     private void queryPatientsWaitingToDischarge(HttpServletRequest request, HttpServletResponse response) throws IOException{
