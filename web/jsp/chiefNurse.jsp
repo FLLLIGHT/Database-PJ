@@ -276,7 +276,7 @@
                     var headerElement = $("<div class='card-header' id='headingbed" + id + "'>" +
                         "      <h2 class='mb-0'>" +
                         "        <button class='btn btn-link' type='button' data-toggle='collapse' data-target='#collapsebed" + id + "' aria-expanded='true' aria-controls='collapsebed" + id + "'>" +
-                        id +
+                        "床位" + id +
                         "        </button>" +
                         "        </h2>" +
                         "    </div>");

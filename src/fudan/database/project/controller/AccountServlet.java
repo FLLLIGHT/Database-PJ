@@ -102,7 +102,7 @@ public class AccountServlet extends HttpServlet {
         HttpSession session = request.getSession();
         accountService.changeInfo(session, name, password);
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("messages", "success");
+        map.put("message", "success");
         JSONObject mapJson = JSONObject.fromObject(map);
         response.getWriter().print(mapJson);
     }

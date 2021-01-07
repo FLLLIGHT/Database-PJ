@@ -27,14 +27,14 @@
             <option value="PatientsWaitingToDischarge">等待出院病人</option>
         </select>
         <select id="subIndentity" style="display: none">
-            <option value="1">轻症</option>
-            <option value="2">重症</option>
-            <option value="3">危重症</option>
+            <option value='1'>已治愈</option>
+            <option value='2'>住院</option>
+            <option value='3'>死亡</option>
         </select>
         <button onclick="submitQuery()">查询</button>
     </div>
     <div id="queryResult" style="display: none">
-        <table class="table" id="resultTable"><</table>
+        <table class="table" id="resultTable"></table>
     </div>
     <div>
         <h2 id="chiefNurse"></h2>
@@ -194,6 +194,7 @@
                         window.location.reload();
                     }else {
                         alert("修改失败，" + result["message"]);
+                        window.location.reload();
                     }
                 }
             )

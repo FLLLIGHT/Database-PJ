@@ -124,10 +124,13 @@ public class ChiefNurseServlet  extends HttpServlet {
         String name = request.getParameter("name");
         String password = request.getParameter("password");
         //只能给自己的area里加护士
+        System.out.println("-============================================");
         nurseService.addWardNurse(name, password, chiefNurse.getAreaId());
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("messages", "success");
+        map.put("message", "success");
         JSONObject mapJson = JSONObject.fromObject(map);
+        System.out.println("-============================================");
+
         response.getWriter().print(mapJson);
 
     }

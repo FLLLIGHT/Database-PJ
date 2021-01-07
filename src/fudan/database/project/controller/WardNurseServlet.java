@@ -71,7 +71,7 @@ public class WardNurseServlet extends HttpServlet {
         }
         patientService.addDailyRecord(patientId, temperature, symptom, lifeStatus, date);
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("messages", "success");
+        map.put("message", "success");
         JSONObject mapJson = JSONObject.fromObject(map);
         response.getWriter().print(mapJson);
 

@@ -15,7 +15,7 @@ public class DailyRecordDAOJdbcImpl extends DAO<DailyRecord> implements DailyRec
 
     @Override
     public List<DailyRecord> getLatest3Record(String patientId) {
-        String sql = "SELECT * FROM daily_record LIMIT 3 WHERE patientId = ? ORDER BY date DESC";
+        String sql = "SELECT * FROM daily_record WHERE patientId = ? ORDER BY date DESC LIMIT 3";
         return getForList(sql, patientId);
     }
 }

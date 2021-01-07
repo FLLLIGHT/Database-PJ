@@ -65,7 +65,7 @@ public class MessageServlet extends HttpServlet {
         int messageId = Integer.parseInt(request.getParameter("messageId"));
         messageService.markMessageAsRead(messageId);
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("messages", "success");
+        map.put("message", "success");
         JSONObject mapJson = JSONObject.fromObject(map);
         response.getWriter().print(mapJson);
 

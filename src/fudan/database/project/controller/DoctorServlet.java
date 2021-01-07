@@ -130,7 +130,7 @@ public class DoctorServlet extends HttpServlet {
         String patientId = request.getParameter("patientId");
         patientService.updateLifeStatusOfPatient(patientId, lifeStatus);
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("messages", "success");
+        map.put("message", "success");
         JSONObject mapJson = JSONObject.fromObject(map);
         response.getWriter().print(mapJson);
 
@@ -171,9 +171,9 @@ public class DoctorServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Doctor doctor = (Doctor)session.getAttribute("user");
         String patientId = request.getParameter("patientId");
-        patientService.dischargePatient(patientId);
+        String message= patientService.dischargePatient(patientId);
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("messages", "success");
+        map.put("message", message);
         JSONObject mapJson = JSONObject.fromObject(map);
         response.getWriter().print(mapJson);
 

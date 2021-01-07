@@ -90,6 +90,7 @@ public class PatientService {
 
     private boolean checkDailyRecord(Patient patient){
         List<DailyRecord> dailyRecords = dailyRecordDAO.getLatest3Record(patient.getPatientId());
+        if(dailyRecords==null||dailyRecords.size()==0) return false;
         for(DailyRecord dailyRecord : dailyRecords){
             if(dailyRecord.getTemperature() >= 37.3)
                 return false;
@@ -97,16 +98,19 @@ public class PatientService {
         return true;
     }
 
-    public void dischargePatient(String patientId){
+    public String dischargePatient(String patientId){
         //todo: 检查治疗区域是不是轻症
         //todo：再次检查病人是不是真的符合出院条件
         //todo：检查病人的evaluation？
+        Patient patient = patientDAO.getById(patientId);
+        if(!checkDailyRecord(patient)||!checkTestResult(patient)||patient.getAreaId()!=1) return "The patient can not be discharged!!!!";
         updateLifeStatusOfPatient(patientId, 1);
+        return "success";
     }
 
     private boolean checkTestResult(Patient patient){
         List<TestResult> testResults = testResultDAO.getTestResultsByPatientId(patient.getPatientId());
-        if(testResults.size()==0) return false;
+        if(testResults==null||testResults.size()==0) return false;
         if(testResults.get(0).getTestResult().equals("positive")) return false;
         Date date = testResults.get(0).getDate();
         for(int i=1; i<testResults.size(); i++){
@@ -143,7 +147,7 @@ public class PatientService {
     private void checkAndSendDischargeMessage(String patientId){
         //检查加入这个daily record后是不是符合出院条件，如果是，则给主治医生发消息
         Patient patient = patientDAO.getById(patientId);
-        if(checkTestResult(patient)&&checkDailyRecord(patient)){
+        if(checkTestResult(patient)&&checkDailyRecord(patient)&&patient.getAreaId()==1){
             String messageContent = "Patient " + patient.getName() + " is waiting to be discharged! please check it out.";
             messageService.sendMessage(doctorDAO.get(patient.getAreaId()).getDoctorId(), 1, messageContent);
         }
@@ -189,7 +193,7 @@ public class PatientService {
         messageService.sendMessage(chiefNurseDAO.getChiefNurseByArea(toAreaId).getChiefNurseId(), 2, messageContent);
         //如果移动成功，尝试进一步移动（递归调用）
         autoTransfer();
-        return "Move success";
+        return "success";
     }
 
     public String registerPatient(String name, String address, String gender, String telephone, int evaluation){
@@ -251,6 +255,7 @@ public class PatientService {
     }
 
     private Patient addNurseName(Patient patient){
+        if(patient==null) return null;
         patient.setNurseName(wardNurseDAO.get(patient.getNurseId()).getName());
         return patient;
     }

@@ -54,7 +54,7 @@ public class EmergencyNurseServlet extends HttpServlet {
         request.setAttribute("message", message);
         request.getRequestDispatcher("/jsp/emergencyNurse.jsp").forward(request, response);
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("messages", "success");
+        map.put("message", "success");
         JSONObject mapJson = JSONObject.fromObject(map);
         response.getWriter().print(mapJson);
 
@@ -63,7 +63,7 @@ public class EmergencyNurseServlet extends HttpServlet {
     private void queryPatientsByArea(HttpServletRequest request, HttpServletResponse response) throws IOException{
         HttpSession session = request.getSession();
         EmergencyNurse emergencyNurse = (EmergencyNurse)session.getAttribute("user");
-        int areaId = Integer.parseInt(request.getParameter("areaId"));
+        int areaId = Integer.parseInt(request.getParameter("area"));
         List<Patient> patients = patientService.getPatientsByArea(areaId);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("patients", patients);

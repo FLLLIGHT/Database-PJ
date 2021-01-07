@@ -9,13 +9,13 @@ import java.util.List;
 public class BedDAOJdbcImpl extends DAO<Bed> implements BedDAO {
     @Override
     public List<Bed> getFreeBedsByArea(int areaId) {
-        String sql = "SELECT bedId, patientId, roomId FROM bed WHERE roomId = (SELECT roomId FROM room WHERE areaId = ?) AND patientId = ''";
+        String sql = "SELECT bedId, patientId, roomId FROM bed WHERE roomId in (SELECT roomId FROM room WHERE areaId = ?) AND patientId = ''";
         return getForList(sql, areaId);
     }
 
     @Override
     public List<Bed> getBedsByArea(int areaId) {
-        String sql = "SELECT bedId, patientId, roomId FROM bed WHERE roomId = (SELECT roomId FROM room WHERE areaId = ?)";
+        String sql = "SELECT bedId, patientId, roomId FROM bed WHERE roomId in (SELECT roomId FROM room WHERE areaId = ?)";
         return getForList(sql, areaId);
     }
 

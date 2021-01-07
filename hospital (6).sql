@@ -115,7 +115,7 @@ INSERT INTO `chief_nurse` (`chiefNurseId`, `name`, `password`, `areaId`) VALUES
 
 CREATE TABLE `daily_record` (
   `recordId` int(11) NOT NULL,
-  `patientId` varchar(511) NOT NULL,
+  `patientId` varchar(128) NOT NULL,
   `temperature` float NOT NULL,
   `symptom` varchar(255) DEFAULT NULL,
   `lifeStatus` int(11) NOT NULL,
