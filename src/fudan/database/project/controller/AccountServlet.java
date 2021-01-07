@@ -5,6 +5,7 @@ import fudan.database.project.entity.Doctor;
 import fudan.database.project.entity.EmergencyNurse;
 import fudan.database.project.entity.WardNurse;
 import fudan.database.project.service.AccountService;
+import net.sf.json.JSONObject;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AccountServlet extends HttpServlet {
 
@@ -98,7 +101,11 @@ public class AccountServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         accountService.changeInfo(session, name, password);
-        
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("messages", "success");
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
+
     }
 
 

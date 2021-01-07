@@ -129,6 +129,11 @@ public class DoctorServlet extends HttpServlet {
         int lifeStatus = Integer.parseInt(request.getParameter("lifeStatus"));
         String patientId = request.getParameter("patientId");
         patientService.updateLifeStatusOfPatient(patientId, lifeStatus);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("messages", "success");
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
+
     }
 
     private void addTestResult(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -167,6 +172,11 @@ public class DoctorServlet extends HttpServlet {
         Doctor doctor = (Doctor)session.getAttribute("user");
         String patientId = request.getParameter("patientId");
         patientService.dischargePatient(patientId);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("messages", "success");
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
+
     }
 
 }

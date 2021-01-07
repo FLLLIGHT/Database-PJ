@@ -49,6 +49,10 @@ public class PatientService {
         return addNurseName(patientDAO.getPatientsByAreaAndLifeStatus(areaId, lifeStatus));
     }
 
+    public List<Patient> getPatientsByNurseIdAndLifeStatus(int nurseId, int lifeStatus){
+        return addNurseName(patientDAO.getPatientsByNurseIdAndLifeStatus(nurseId, lifeStatus));
+    }
+
     public List<Patient> getPatientsByLifeStatus(int lifeStatus){
         return addNurseName(patientDAO.getPatientsByLifeStatus(lifeStatus));
     }
@@ -61,8 +65,7 @@ public class PatientService {
         return addNurseName(patientDAO.getPatientsByNurseId(nurseId));
     }
 
-    public List<Patient> getPatientsWaitingToDischargeByArea(int areaId){
-        List<Patient> patients = getPatientsByArea(areaId);
+    public List<Patient> getPatientsWaitingToDischarge(List<Patient> patients){
         List<Patient> healedPatients = new ArrayList<>();
         for(Patient patient : patients){
             if(checkDailyRecord(patient)&&checkTestResult(patient)){
@@ -70,6 +73,19 @@ public class PatientService {
             }
         }
         return addNurseName(healedPatients);
+    }
+
+    public List<Patient> getPatientsWaitingToDischargeByArea(int areaId){
+//        List<Patient> patients = getPatientsByArea(areaId);
+//        List<Patient> healedPatients = new ArrayList<>();
+//        for(Patient patient : patients){
+//            if(checkDailyRecord(patient)&&checkTestResult(patient)){
+//                healedPatients.add(patient);
+//            }
+//        }
+//        return addNurseName(healedPatients);
+        if(areaId!=1) return null;
+        return getPatientsWaitingToDischarge(getPatientsByArea(areaId));
     }
 
     private boolean checkDailyRecord(Patient patient){
@@ -85,9 +101,7 @@ public class PatientService {
         //todo: 检查治疗区域是不是轻症
         //todo：再次检查病人是不是真的符合出院条件
         //todo：检查病人的evaluation？
-        patientDAO.updateLifeStatusOfPatient(patientId, 1);
-        //移开床的关联关系
-        bedDAO.updateByPatientId("", bedDAO.getBedByPatientId(patientId).getBedId());
+        updateLifeStatusOfPatient(patientId, 1);
     }
 
     private boolean checkTestResult(Patient patient){
@@ -109,6 +123,15 @@ public class PatientService {
 
     public void updateLifeStatusOfPatient(String patientId, int lifeStatus){
         patientDAO.updateLifeStatusOfPatient(patientId, lifeStatus);
+        if(lifeStatus!=2){
+            Bed bed = bedDAO.getBedByPatientId(patientId);
+            //删掉原来的bed信息（如果存在的话）
+            if(bed!=null){
+                bedDAO.updateByPatientId("", bed.getBedId());
+            }
+            patientDAO.updateNurseIdAndAreaOfPatient(patientId, -1, 5);
+        }
+        autoTransfer();
     }
 
     public void addTestResult(String patientId, Date date, String result, int evaluation){

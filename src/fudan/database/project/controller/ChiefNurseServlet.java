@@ -125,6 +125,11 @@ public class ChiefNurseServlet  extends HttpServlet {
         String password = request.getParameter("password");
         //只能给自己的area里加护士
         nurseService.addWardNurse(name, password, chiefNurse.getAreaId());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("messages", "success");
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
+
     }
 
     private void deleteWardNurse(HttpServletRequest request, HttpServletResponse response) throws IOException{

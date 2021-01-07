@@ -1,5 +1,6 @@
 package fudan.database.project.controller;
 
+import fudan.database.project.entity.ChiefNurse;
 import fudan.database.project.entity.Doctor;
 import fudan.database.project.entity.Patient;
 import fudan.database.project.entity.WardNurse;
@@ -61,7 +62,7 @@ public class WardNurseServlet extends HttpServlet {
         float temperature = Float.parseFloat(request.getParameter("temperature"));
         String symptom = request.getParameter("symptom");
         int lifeStatus = Integer.parseInt(request.getParameter("lifeStatus"));
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
         try {
             date = df.parse(request.getParameter("date"));
@@ -69,6 +70,33 @@ public class WardNurseServlet extends HttpServlet {
             e.printStackTrace();
         }
         patientService.addDailyRecord(patientId, temperature, symptom, lifeStatus, date);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("messages", "success");
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
+
+    }
+
+    private void queryPatientsWaitingToDischarge(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        HttpSession session = request.getSession();
+        WardNurse wardNurse = (WardNurse) session.getAttribute("user");
+        List<Patient> patients = patientService.getPatientsByNurseId(wardNurse.getWardNurseId());
+        List<Patient> healedPatients = patientService.getPatientsWaitingToDischarge(patients);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("patients", healedPatients);
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
+    }
+
+    private void queryPatientsByLifeStatus(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        HttpSession session = request.getSession();
+        WardNurse wardNurse = (WardNurse) session.getAttribute("user");
+        int lifeStatus = Integer.parseInt(request.getParameter("lifeStatus"));
+        List<Patient> patients = patientService.getPatientsByNurseIdAndLifeStatus(wardNurse.getWardNurseId(), lifeStatus);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("patients", patients);
+        JSONObject mapJson = JSONObject.fromObject(map);
+        response.getWriter().print(mapJson);
     }
 
 }
