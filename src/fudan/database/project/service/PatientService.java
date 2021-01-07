@@ -17,6 +17,8 @@ public class PatientService {
     private final BedDAO bedDAO = new BedDAOJdbcImpl();
     private final TestResultDAO testResultDAO = new TestResultDAOJdbcImpl();
     private final DailyRecordDAO dailyRecordDAO = new DailyRecordDAOJdbcImpl();
+    private final MessageService messageService = new MessageService();
+    private final NurseService nurseService = new NurseService();
     private final int MaxNumberInMild = 3;
     private final int MaxNumberInSevere = 2;
     private final int MaxNumberInCritical = 1;
@@ -140,6 +142,9 @@ public class PatientService {
         bedDAO.updateByPatientId(patientId, bedId);
         //修改护士信息
         patientDAO.updateNurseIdOfPatient(patientId, nurseId);
+        //给护士长发送提醒信息
+        String messageContent = "A new patient: " + patient.getName() + " has come to your Area! Please check it out.";
+        messageService.sendMessage(nurseService.getChiefNurseByArea(toAreaId).getChiefNurseId(), 2, messageContent);
         //如果移动成功，尝试进一步移动（递归调用）
         autoTransfer();
         return "Move success";
@@ -176,6 +181,9 @@ public class PatientService {
         patient.setLifeStatus(2);
         patientDAO.save(patient);
         bedDAO.updateByPatientId(strId, bedId);
+        //给护士长发送提醒信息
+        String messageContent = "A new patient: " + patient.getName() + " has come to your Area! Please check it out.";
+        messageService.sendMessage(nurseService.getChiefNurseByArea(evaluation).getChiefNurseId(), 2, messageContent);
         return "Check in hospital success";
     }
 

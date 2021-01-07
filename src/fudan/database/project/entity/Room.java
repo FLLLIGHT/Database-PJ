@@ -4,6 +4,10 @@ public class Room {
     private int roomId;
     private int areaId;
 
+    public Room() {
+        //
+    }
+
     public int getRoomId() {
         return roomId;
     }
