@@ -262,7 +262,7 @@ public class PatientService {
 
     private List<Patient> addNurseName(List<Patient> patients){
         for(Patient patient : patients){
-            if(patient.getNurseId()==-1) continue;
+            if(patient.getNurseId()==-1||patient.getNurseId()==0) continue;
             addNurseName(patient);
         }
         return patients;

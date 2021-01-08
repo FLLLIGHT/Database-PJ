@@ -30,9 +30,9 @@
             <option value="PatientsWaitingToDischarge">等待出院病人</option>
         </select>
         <select id="subIndentity" style="margin-top: 20px; display: none">
-            <option value="1">轻症</option>
-            <option value="2">重症</option>
-            <option value="3">危重症</option>
+            <option value='1'>已治愈</option>
+            <option value='2'>住院</option>
+            <option value='3'>死亡</option>
         </select>
         <button onclick="submitQuery()" style="margin-top: 20px">查询</button>
     </div>
@@ -90,7 +90,7 @@
         );
     };
 
-    var id2Area = ['', '轻症区', "重症区", "危重症区", "隔离区"];
+    var id2Area = ['', '轻症区', "重症区", "危重症区", "隔离区", "不在医院内"];
     var id2Status = ['', "已治愈", "住院", "死亡"];
     var id2Evaluation = ['', "轻症", "重症", "危重症"];
     var patientsIds = [];
