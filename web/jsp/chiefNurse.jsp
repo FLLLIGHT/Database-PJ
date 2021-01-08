@@ -10,42 +10,47 @@
     <script src="http://lib.h-ui.net/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
 </head>
 <body>
-<div><a href="/Database_PJ_war_exploded/jsp/account.jsp" class="btn-primary">个人信息&站内信</a></div>
-<div>
-    <form action="/Database_PJ_war_exploded/account/logout" method="post">
-        <button type="submit" class="btn-primary">登出</button>
-    </form>
+<div class="row">
+    <div class="col-md-6"><a href="/Database_PJ_war_exploded/jsp/account.jsp">个人信息&站内信</a></div>
+    <div class="col-md-6">
+        <form action="/Database_PJ_war_exploded/account/logout" method="post">
+            <button type="submit" class="btn-primary">登出</button>
+        </form>
+    </div>
 </div>
+<hr>
 <div>
     <button class="btn-primary" onclick="showQuery()">查询病人情况</button>
-    <div id="queryPatient" style="display: none">
-        <div>查询条件</div>
-        <select id="Indentity">
+    <div id="queryPatient" style="margin-top: 20px; display: none">
+        <div style="margin-top: 20px">查询条件:</div>
+        <select id="Indentity" style="margin-top: 20px">
             <option value="AllPatientsInArea">区域内所有病人</option>
             <option value="PatientsWaitingToTransfer">等待转移病人</option>
             <option value="PatientsByLifeStatus">病人生命状态</option>
             <option value="PatientsWaitingToDischarge">等待出院病人</option>
         </select>
-        <select id="subIndentity" style="display: none">
+        <select id="subIndentity" style="margin-top: 20px; display: none">
             <option value="1">轻症</option>
             <option value="2">重症</option>
             <option value="3">危重症</option>
         </select>
-        <button onclick="submitQuery()">查询</button>
+        <button onclick="submitQuery()" style="margin-top: 20px">查询</button>
     </div>
-    <div id="queryResult" style="display: none">
-        <table class="table" id="resultTable"></table>
+    <div id="queryResult" style="margin-top:20px; display: none">
+        <table class="table" id="resultTable" style="margin-top: 20px"></table>
     </div>
+    <hr>
     <div>
         <h2>病房护士</h2>
-        <div>
+        <div style="margin-top: 20px;">
             <button class="btn-primary" onclick="addWardNurse()">新增病房护士</button>
         </div>
-        <div class="accordion" id="accordion"></div>
+        <div class="accordion" id="accordion" style="margin-top: 20px"></div>
     </div>
+    <hr>
     <div>
         <h2>床位</h2>
-        <div class="accordion" id="accordion1"></div>
+        <div class="accordion" id="accordion1" style="margin-top: 20px"></div>
     </div>
 </div>
 
@@ -315,4 +320,11 @@
     }
 
 </script>
+
+<style>
+    body{
+        margin: 100px 100px;
+    }
+</style>
+
 </html>

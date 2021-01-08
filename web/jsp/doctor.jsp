@@ -10,35 +10,50 @@
     <script src="http://lib.h-ui.net/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
 </head>
 <body>
-<div><a href="/Database_PJ_war_exploded/jsp/account.jsp" class="btn-primary">个人信息&站内信</a></div>
-<div>
-    <form action="/Database_PJ_war_exploded/account/logout" method="post">
-        <button type="submit" class="btn-primary">登出</button>
-    </form>
-</div>
-<div>
-    <button class="btn-primary" onclick="showQuery()">查询病人情况</button>
-    <div id="queryPatient" style="display: none">
-        <div>查询条件</div>
-        <select id="Indentity">
-            <option value="AllPatientsInArea">区域内所有病人</option>
-            <option value="PatientsWaitingToTransfer">等待转移病人</option>
-            <option value="PatientsByLifeStatus">病人生命状态</option>
-            <option value="PatientsWaitingToDischarge">等待出院病人</option>
-        </select>
-        <select id="subIndentity" style="display: none">
-            <option value='1'>已治愈</option>
-            <option value='2'>住院</option>
-            <option value='3'>死亡</option>
-        </select>
-        <button onclick="submitQuery()">查询</button>
+
+<div class="row">
+    <div class="col-md-6"><a href="/Database_PJ_war_exploded/jsp/account.jsp">个人信息&站内信</a></div>
+    <div class="col-md-6">
+        <form action="/Database_PJ_war_exploded/account/logout" method="post">
+            <button type="submit" class="btn-primary">登出</button>
+        </form>
     </div>
-    <div id="queryResult" style="display: none">
+</div>
+<hr>
+<div>
+    <div class="row">
+        <button class="btn-primary" onclick="showQuery()" style="margin-left: 20px">查询病人情况</button>
+    </div>
+
+    <div id="queryPatient" class="row" style="display: none">
+        <div class="col-md-3" style="margin-top: 20px">查询条件:</div>
+        <div class="col-md-3" style="margin-top: 20px">
+            <select id="Indentity">
+                <option value="AllPatientsInArea">区域内所有病人</option>
+                <option value="PatientsWaitingToTransfer">等待转移病人</option>
+                <option value="PatientsByLifeStatus">病人生命状态</option>
+                <option value="PatientsWaitingToDischarge">等待出院病人</option>
+            </select>
+        </div>
+        <div class="col-md-3" style="margin-top: 20px">
+            <select id="subIndentity" style="display: none">
+                <option value='1'>已治愈</option>
+                <option value='2'>住院</option>
+                <option value='3'>死亡</option>
+            </select>
+        </div>
+        <div class="col-md-3" style="margin-top: 20px">
+            <button class="btn-info" onclick="submitQuery()">查询</button>
+        </div>
+    </div>
+    <div id="queryResult" style="margin-top: 20px; display: none">
         <table class="table" id="resultTable"></table>
     </div>
+    <hr>
     <div>
         <h2 id="chiefNurse"></h2>
     </div>
+    <hr>
     <div>
         <h2>病房护士</h2>
         <div class="accordion" id="accordion"></div>
@@ -340,4 +355,11 @@
     });
 
 </script>
+
+<style>
+    body{
+        margin: 100px 100px;
+    }
+</style>
+
 </html>

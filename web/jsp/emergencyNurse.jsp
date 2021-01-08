@@ -9,51 +9,55 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div><a href="/Database_PJ_war_exploded/jsp/account.jsp" class="btn-primary">个人信息&站内信</a></div>
-<div>
-    <form action="/Database_PJ_war_exploded/account/logout" method="post">
-        <button type="submit" class="btn-primary">登出</button>
-    </form>
+<div class="row">
+    <div class="col-md-6"><a href="/Database_PJ_war_exploded/jsp/account.jsp">个人信息&站内信</a></div>
+    <div class="col-md-6">
+        <form action="/Database_PJ_war_exploded/account/logout" method="post">
+            <button type="submit" class="btn-primary">登出</button>
+        </form>
+    </div>
 </div>
-    <div>
-        <button class="btn-primary" id="addButton" onclick="showAdd()">新增病人</button>
-        <div id="addPatient" style="display: none">
-            <form action="/Database_PJ_war_exploded/emergency/registerPatient" method="post" onsubmit="return addCheck()">
-                <input name="name" type="text" placeholder="name" id="name">
-                <input name="address" type="text" placeholder="address" id="address">
-                <select name="gender" id="gender">
-                    <option value="male">男性</option>
-                    <option value="female">女性</option>
-                </select>
-                <input name="telephone" type="text" placeholder="telephone" id="telephone">
-                <select name="evaluation" id="evaluation">
-                    <option value="1">轻症</option>
-                    <option value="2">重症</option>
-                    <option value="3">危重症</option>
-                </select>
-                <button type="submit">提交</button>
-                <div id="attention" style="display: none">请填入正确信息！</div>
-            </form>
-        </div>
-    </div>
-    <div>
-        <button class="btn-primary" id="queryButton" onclick="showQuery()">查询病人情况</button>
-        <div id="queryPatient" style="display: none">
-            <div>查询特征</div>
-            <select id="Indentity">
-                <option value=""></option>
-                <option value="Area">隔离区域</option>
-                <option value="LifeStatus">生命状态</option>
-                <option value="Evaluation">病情评级</option>
+<hr>
+<div>
+    <button class="btn-primary" id="addButton" onclick="showAdd()">新增病人</button>
+    <div id="addPatient" style="margin-top:20px; display: none">
+        <form action="/Database_PJ_war_exploded/emergency/registerPatient" method="post" onsubmit="return addCheck()">
+            <input name="name" type="text" placeholder="name" id="name">
+            <input name="address" type="text" placeholder="address" id="address">
+            <select name="gender" id="gender">
+                <option value="male">男性</option>
+                <option value="female">女性</option>
             </select>
-            <select id="subIndentity" style="display: none"></select>
-            <button onclick="query()">查询</button>
-            <div id="queryAttention" style="display: none">请选择正确的查询条件</div>
-            <div id="queryResult" style="display: none">
-                <table class="table" id="resultTable"></table>
-            </div>
+            <input name="telephone" type="text" placeholder="telephone" id="telephone">
+            <select name="evaluation" id="evaluation">
+                <option value="1">轻症</option>
+                <option value="2">重症</option>
+                <option value="3">危重症</option>
+            </select>
+            <button type="submit">提交</button>
+            <div id="attention" style="display: none">请填入正确信息！</div>
+        </form>
+    </div>
+</div>
+<hr>
+<div>
+    <button class="btn-primary" id="queryButton" onclick="showQuery()">查询病人情况</button>
+    <div id="queryPatient" style="margin-top:20px; display: none">
+        <div>查询特征:</div>
+        <select id="Indentity" style="margin-top: 20px">
+            <option value=""></option>
+            <option value="Area">隔离区域</option>
+            <option value="LifeStatus">生命状态</option>
+            <option value="Evaluation">病情评级</option>
+        </select>
+        <select id="subIndentity" style="margin-top: 20px; display: none"></select>
+        <button onclick="query()" style="margin-top: 20px;">查询</button>
+        <div id="queryAttention" style="display: none">请选择正确的查询条件</div>
+        <div id="queryResult" style="margin-top: 20px; display: none">
+            <table class="table" id="resultTable"></table>
         </div>
     </div>
+</div>
 </body>
 <script>
     function showAdd() {
@@ -165,4 +169,10 @@
         $('#queryResult').css("display", "block");
     }
 </script>
+
+<style>
+    body{
+        margin: 100px 100px;
+    }
+</style>
 </html>

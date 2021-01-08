@@ -9,22 +9,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+<div class="row">
+    <div class="col-md-6">
+        <form action="/Database_PJ_war_exploded/account/jumpToHome" method="post">
+            <button type="submit" class="btn-primary">返回主界面</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <form action="/Database_PJ_war_exploded/account/logout" method="post">
+            <button type="submit" class="btn-primary">登出</button>
+        </form>
+    </div>
+</div>
+<hr>
 <div>
     <button class="btn-primary" onclick="changeInfo()">修改用户名&密码</button>
 </div>
-<div>
-    <form action="/Database_PJ_war_exploded/account/jumpToHome" method="post">
-        <button type="submit" class="btn-primary">返回主界面</button>
-    </form>
-</div>
-<div>
-    <form action="/Database_PJ_war_exploded/account/logout" method="post">
-        <button type="submit" class="btn-primary">登出</button>
-    </form>
-</div>
-<div>
+<hr>
+
+<div style="margin-top: 20px">
     <h2>未读站内信</h2>
-    <div class="accordion" id="accordion"></div>
+    <div class="accordion" id="accordion" style="margin-top: 20px;"></div>
 </div>
 
 <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -124,4 +130,10 @@
         )
     }
 </script>
+
+<style>
+    body{
+        margin: 100px 100px;
+    }
+</style>
 </html>
