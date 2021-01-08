@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2021-01-07 17:29:17
+-- 生成日期： 2021-01-08 08:19:31
 -- 服务器版本： 10.4.13-MariaDB
 -- PHP 版本： 7.4.7
 
@@ -51,7 +51,7 @@ INSERT INTO `area` (`areaId`, `type`) VALUES
 
 CREATE TABLE `bed` (
   `bedId` int(11) NOT NULL,
-  `patientId` varchar(128) DEFAULT NULL,
+  `patientId` varchar(128) DEFAULT '',
   `roomId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -62,7 +62,18 @@ CREATE TABLE `bed` (
 INSERT INTO `bed` (`bedId`, `patientId`, `roomId`) VALUES
 (1, '', 1),
 (2, '', 2),
-(3, '', 3);
+(3, '', 3),
+(9, '', 1),
+(10, '', 1),
+(11, '', 1),
+(12, '', 4),
+(13, '', 4),
+(14, '', 4),
+(15, '', 4),
+(16, '', 2),
+(17, '', 5),
+(18, '', 5),
+(19, '', 6);
 
 --
 -- 触发器 `bed`
@@ -107,6 +118,19 @@ INSERT INTO `chief_nurse` (`chiefNurseId`, `name`, `password`, `areaId`) VALUES
 (2, 'Eric', '123456', 2),
 (3, 'Frank', '123456', 3);
 
+--
+-- 触发器 `chief_nurse`
+--
+DELIMITER $$
+CREATE TRIGGER `chief_nurse_limit` BEFORE INSERT ON `chief_nurse` FOR EACH ROW BEGIN
+  IF ((select count(chiefNurseId) from chief_nurse where areaId = NEW.areaId) >= 1)
+  THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'MAX CHIEF NURSE IN AREA';
+  END IF;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -143,6 +167,19 @@ INSERT INTO `doctor` (`doctorId`, `name`, `password`, `areaId`) VALUES
 (1, 'Alice', '123456', 1),
 (2, 'Bob', '123456', 2),
 (3, 'Cindy', '123456', 3);
+
+--
+-- 触发器 `doctor`
+--
+DELIMITER $$
+CREATE TRIGGER `doctor_limit` BEFORE INSERT ON `doctor` FOR EACH ROW BEGIN
+  IF ((select count(doctorId) from doctor where areaId = NEW.areaId) >= 1)
+  THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'MAX DOCTOR IN AREA';
+  END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -252,8 +289,11 @@ CREATE TABLE `room` (
 
 INSERT INTO `room` (`roomId`, `areaId`) VALUES
 (1, 1),
+(4, 1),
 (2, 2),
-(3, 3);
+(5, 2),
+(3, 3),
+(6, 3);
 
 -- --------------------------------------------------------
 
@@ -281,14 +321,6 @@ CREATE TABLE `ward_nurse` (
   `password` varchar(255) NOT NULL,
   `areaId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- 转存表中的数据 `ward_nurse`
---
-
-INSERT INTO `ward_nurse` (`wardNurseId`, `name`, `password`, `areaId`) VALUES
-(1, 'A', '12345', 1),
-(2, 'Helen', '123456', 2);
 
 --
 -- 转储表的索引
@@ -351,7 +383,9 @@ ALTER TABLE `life_status`
 -- 表的索引 `message`
 --
 ALTER TABLE `message`
-  ADD PRIMARY KEY (`messageId`);
+  ADD PRIMARY KEY (`messageId`),
+  ADD KEY `toId` (`toId`),
+  ADD KEY `toType` (`toType`);
 
 --
 -- 表的索引 `patient`
@@ -360,7 +394,8 @@ ALTER TABLE `patient`
   ADD PRIMARY KEY (`patientId`),
   ADD KEY `evaluation` (`evaluation`),
   ADD KEY `area` (`areaId`),
-  ADD KEY `life_status` (`lifeStatus`);
+  ADD KEY `life_status` (`lifeStatus`),
+  ADD KEY `nurseId` (`nurseId`);
 
 --
 -- 表的索引 `room`
@@ -398,7 +433,7 @@ ALTER TABLE `area`
 -- 使用表AUTO_INCREMENT `bed`
 --
 ALTER TABLE `bed`
-  MODIFY `bedId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `bedId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- 使用表AUTO_INCREMENT `chief_nurse`
@@ -440,7 +475,7 @@ ALTER TABLE `message`
 -- 使用表AUTO_INCREMENT `room`
 --
 ALTER TABLE `room`
-  MODIFY `roomId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `roomId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- 使用表AUTO_INCREMENT `test_result`
